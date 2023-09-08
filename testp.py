@@ -11,12 +11,13 @@ data_path = 'https://raw.githubusercontent.com/YeeJieYao/Project/main/population
 df = pd.read_csv(data_path)
 df2= df.iloc[1:]
 
-fig = px.line(df2,values='pop', names='state',title='Malaysia Population') .update_layout(xaxis_title="State", yaxis_title="Index")
+fig = px.pie(df2,values='pop', names='state',title='Malaysia Population') .update_layout(xaxis_title="State", yaxis_title="Index")
 
 
 app.layout = html.Div(
     [html.Img(src=image_path),
     html.H1("Data Visualization"),
+    html.H2("Dashboard showing graphs"),
     dcc.Dropdown(['Johor', 'Kedah', 'Kelantan','Melaka', 'Negeri Sembilan', 'Pahang', 'Pulau Pinang', 'Perak', 'Perlis', 'Selangor', 'Terengganu', 'Sabah', 'Sarawak', 'W.P. Kuala Lumpur', 'W.P. Labuan', 'W.P. Putrajaya'],
               'Johor', id='my-dropdown'),
     dcc.Graph(id='graph-output', figure = fig)]
@@ -29,7 +30,7 @@ app.layout = html.Div(
 )
 
 def update_my_graph(dropdown_chosen, color_chosen):
-    fig = px.line(df2,values='pop', names='state',title='Malaysia Population') .update_layout(xaxis_title="State", yaxis_title="Index")
+    fig = px.pie(df2,values='pop', names='state',title='Malaysia Population') .update_layout(xaxis_title="State", yaxis_title="Index")
     fig.update_traces(line_color=color_chosen['hex'])
     return fig
 
