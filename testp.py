@@ -60,8 +60,8 @@ def update_graph(color_chosen, val_chosen):
     if len(val_chosen) == 0:
         return dash.no_update, {"color": color_chosen}
     else:
-        dff = df[df["fund_extended_name"].isin(val_chosen)]
-        fig = px.pie(dff, values="ytd_return", names="fund_extended_name", title="Year-to-Date Returns")
+        dff = df[df["state"].isin(val_chosen)]
+        fig = px.pie(dff, values="pop", names="state", title="Malaysia Population")
         fig.update_traces(textinfo="value+percent").update_layout(title_x=0.5)
         return fig, {"color": color_chosen}
 
