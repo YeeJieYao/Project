@@ -52,8 +52,9 @@ app.layout = html.Div(
 # Multiple Input, multiple Output, dash.no_update
 @app.callback(
      [Output('graph-output', 'figure'), Output('sentence-output', 'style')],
-     [Input(component_id='my-radioitem', component_property='value'),
-      Input(component_id='my-dropdown', component_property='value')],
+    [Input(component_id='my-radioitem', component_property='title'),
+    Input(component_id='my-dropdown', component_property='value'),
+    Input(component_id='my-button', component_property='n_clicks')],
      prevent_initial_call=False
  )
 def update_graph(color_chosen, val_chosen):
