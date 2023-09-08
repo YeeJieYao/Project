@@ -29,15 +29,15 @@ app.layout = html.Div(
 
         html.Div(id="sentence-output", children=["This is the color I love"], style={}),
         dcc.RadioItems(id='my-radioitem', value="black", options=[{'label': c, 'value': c} for c in colors]),
-    
-    ]
-)
+        
+    ])
 
 
 # Single Input, single Output, State, prevent initial trigger of callback, PreventUpdate
 @app.callback(
     Output(component_id='graph-output', component_property='figure'),
     [Input(component_id='my-dropdown', component_property='value')],
+    #Input(component_id='my-checklist', component_property='value')],
     # [Input(component_id='my-button', component_property='n_clicks')],
     # [State(component_id='my-dropdown', component_property='value')],
     prevent_initial_call=False
