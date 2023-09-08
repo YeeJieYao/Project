@@ -12,21 +12,12 @@ data_path = 'https://raw.githubusercontent.com/YeeJieYao/Project/main/population
 df = pd.read_csv(data_path)
 fig = px.pie(df,values='pop', names='state',title='Malaysia Population') .update_layout(xaxis_title="State", yaxis_title="Index")
 
-app.layout = html.Div([
-        html.Div([
-            html.Pre(children= "Population",
-            style={"text-align": "center", "font-size":"100%", "color":"black"})
-        ]),
-
-        html.Div([
-            dcc.Graph(id='the_graph')
-        ])
-
-])
-
-
-
-
+app.layout = html.Div(
+    [html.Img(src=image_path),	                
+    html.H1("Data Visualization"),
+    html.H2("Dashboard showing graphs"),
+    dcc.Graph(figure = fig)]
+)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
