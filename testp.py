@@ -21,41 +21,18 @@ app.layout = html.Div(
 
         dcc.Dropdown(id='my-dropdown', multi=True,
                      options=[{'label': x, 'value': x} for x in sorted(df.state.unique())],
-                     value=["Johor"]),
-
-    html.H3('Dash Tabs component demo'),
-    dcc.Tabs(id="Population", value='pop', children=[
-        dcc.Tab(label='Population', value='pop'),
-        dcc.Tab(label='Population 18', value='pop_18'),
-    ]),
-    html.Div(id='tabs-content-example-graph')
+                     value=["Johor"])
 ])
-
 
 
 # Single Input, single Output, State, prevent initial trigger of callback, PreventUpdate
 @app.callback(
-    Output(component_id='graph-output', component_property='figure'),('tabs-content-example-graph', 'children'),
-    [Input(component_id='my-dropdown', component_property='value')],('tabs-example-graph', 'value'),
+    Output(component_id='graph-output', component_property='figure'),
+    [Input(component_id='my-dropdown', component_property='value')],
     # [Input(component_id='my-button', component_property='n_clicks')],
     # [State(component_id='my-dropdown', component_property='value')],
     prevent_initial_call=False
 )
-
-def render_content(tab):
-    if tab == 'pop':
-        return html.Div([
-            html.H4('Tab content 1'),
-            dcc.Graph(figure={})]
-)
-        
-    elif tab == 'pop_18':
-        return html.Div([
-            html.H4('Tab content 2'),
-            dcc.Graph(id='graph-2-tabs-dcc',figure={})]
-)
-
-
 def update_my_graph(val_chosen):
     if len(val_chosen) > 0:
         # print(n)
@@ -67,7 +44,6 @@ def update_my_graph(val_chosen):
         return fig
     elif len(val_chosen) == 0:
         raise dash.exceptions.PreventUpdate
-    
 
 
 
