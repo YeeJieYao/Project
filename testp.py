@@ -13,10 +13,10 @@ df = pd.read_csv(data_path)
 colors = ["black", "blue", "red", "yellow", "pink", "orange"]
 
 app.layout = html.Div(
-    state=[html.H1("Data Visualization"),
+    children=[html.H1("Data Visualization"),
     dcc.Dropdown(['Johor', 'Kedah', 'Kelantan','Melaka', 'Negeri Sembilan', 'Pahang', 'Pulau Pinang', 'Perak', 'Perlis', 'Selangor', 'Terengganu', 'Sabah', 'Sarawak', 'W.P. Kuala Lumpur', 'W.P. Labuan', 'W.P. Putrajaya'],
                  'Johor', id='my-dropdown'),
-    html.Button(id='my-button', n_clicks=0, state="Show breakdown"),
+    html.Button(id='my-button', n_clicks=0, children="Show breakdown"),
     dcc.Graph(id='graph-output', figure ={}),
     html.Div(id="sentence-output", children=["This is the color I love"], style={}),
         dcc.RadioItems(id='my-radioitem', value="black", options=[{'label': c, 'value': c} for c in colors]),
