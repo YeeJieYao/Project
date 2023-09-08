@@ -6,7 +6,7 @@ app = Dash(__name__)
 server = app.server
 
 image_path = 'https://www.mmu.edu.my/wp-content/themes/mmu2018/assets/images/logo-mmu.png'
-data_path = 'https://raw.githubusercontent.com/YeeJieYao/Project/main/mcd_locations_in_malaysia.csv'
+data_path = 'https://raw.githubusercontent.com/YeeJieYao/Project/main/population.csv'
 
 df = pd.read_csv(data_path)
 df2= df.iloc[1:]
