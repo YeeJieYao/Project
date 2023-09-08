@@ -12,6 +12,7 @@ df = pd.read_csv("https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plo
 colors = ["black", "blue", "red", "yellow", "pink", "orange"]
 
 app = dash.Dash(__name__)
+server = app.server
 
 app.layout = html.Div(
     children=[
