@@ -18,15 +18,15 @@ app.layout = html.Div(
     [html.Img(src=image_path),
     html.H1("Data Visualization"),
     html.H2("Dashboard showing graphs"),
-    dcc.Checklist(['Johor', 'Kedah', 'Kelantan','Melaka', 'Negeri Sembilan', 'Pahang', 'Pulau Pinang', 'Perak', 'Perlis', 'Selangor', 'Terengganu', 'Sabah', 'Sarawak', 'W.P. Kuala Lumpur', 'W.P. Labuan', 'W.P. Putrajaya'],
-              'Johor', id='my-checklist'),
+    dcc.Dropdown(['Johor', 'Kedah', 'Kelantan','Melaka', 'Negeri Sembilan', 'Pahang', 'Pulau Pinang', 'Perak', 'Perlis', 'Selangor', 'Terengganu', 'Sabah', 'Sarawak', 'W.P. Kuala Lumpur', 'W.P. Labuan', 'W.P. Putrajaya'],
+              'Johor', id='my-dropdown'),
     dcc.Graph(id='graph-output', figure = fig)]
 )
 
 
 @app.callback(
     Output(component_id='graph-output', component_property='figure'),
-    Input(component_id='my-checklist', component_property='values')
+    Input(component_id='my-dropdown', component_property='values')
 )
 
 def update_my_graph(dropdown_chosen, color_chosen):
