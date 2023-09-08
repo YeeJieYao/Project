@@ -19,9 +19,10 @@ app.layout = html.Div(
     html.H1("Data Visualization"),
     html.H2("Dashboard showing graphs"),
     dcc.Checklist(['Johor', 'Kedah', 'Kelantan','Melaka', 'Negeri Sembilan', 'Pahang', 'Pulau Pinang', 'Perak', 'Perlis', 'Selangor', 'Terengganu', 'Sabah', 'Sarawak', 'W.P. Kuala Lumpur', 'W.P. Labuan', 'W.P. Putrajaya'],
-              ['Johor', 'Kedah', 'Kelantan','Melaka', 'Negeri Sembilan', 'Pahang', 'Pulau Pinang', 'Perak', 'Perlis', 'Selangor', 'Terengganu', 'Sabah', 'Sarawak', 'W.P. Kuala Lumpur', 'W.P. Labuan', 'W.P. Putrajaya'])
-    dcc.Graph(figure = fig)]
+              'Johor', id='my-checklist')]
 )
+
+
 
 
 if __name__ == '__main__':
