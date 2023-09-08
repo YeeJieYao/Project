@@ -24,9 +24,9 @@ app.layout = html.Div(
                      value=["Johor"]),
 
     html.H3('Dash Tabs component demo'),
-    dcc.Tabs(id="tabs-example-graph", value='tab-1-example-graph', children=[
-        dcc.Tab(label='Tab One', value='tab-1-example-graph'),
-        dcc.Tab(label='Tab Two', value='tab-2-example-graph'),
+    dcc.Tabs(id="Population", value='pop', children=[
+        dcc.Tab(label='Population', value='pop'),
+        dcc.Tab(label='Population 18', value='pop_18'),
     ]),
     html.Div(id='tabs-content-example-graph')
 ])
@@ -43,15 +43,15 @@ app.layout = html.Div(
 )
 
 def render_content(tab):
-    if tab == 'tab-1-example-graph':
+    if tab == 'pop':
         return html.Div([
-            html.H3('Tab content 1'),
+            html.H4('Tab content 1'),
             dcc.Graph(figure={})]
 )
         
-    elif tab == 'tab-2-example-graph':
+    elif tab == 'pop_18':
         return html.Div([
-            html.H3('Tab content 2'),
+            html.H4('Tab content 2'),
             dcc.Graph(id='graph-2-tabs-dcc',figure={})]
 )
 
