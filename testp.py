@@ -8,8 +8,6 @@ from dash.dependencies import Input, Output, State
 
 df = pd.read_csv("https://raw.githubusercontent.com/YeeJieYao/Project/main/population.csv")
 
-colors = ["black", "blue", "red", "yellow", "pink", "orange"]
-
 app = dash.Dash(__name__)
 server = app.server
 
@@ -23,25 +21,41 @@ app.layout = html.Div(
 
         dcc.Dropdown(id='my-dropdown', multi=True,
                      options=[{'label': x, 'value': x} for x in sorted(df.state.unique())],
-                     value=["Johor", "Kedah",
-                            "Kelantan"]),
-        html.Button(id='my-button', n_clicks=0, children="Show breakdown"),
-        dcc.Graph(id='graph-output', figure={}),
+                     value=["Johor"]),
 
-        html.Div(id="sentence-output", children=["This is the color I love"], style={}),
-        dcc.RadioItems(id='my-radioitem', value="black", options=[{'label': c, 'value': c} for c in colors]),
-    ]
-)
+    html.H3('Dash Tabs component demo'),
+    dcc.Tabs(id="tabs-example-graph", value='tab-1-example-graph', children=[
+        dcc.Tab(label='Tab One', value='tab-1-example-graph'),
+        dcc.Tab(label='Tab Two', value='tab-2-example-graph'),
+    ]),
+    html.Div(id='tabs-content-example-graph')
+])
+
 
 
 # Single Input, single Output, State, prevent initial trigger of callback, PreventUpdate
 @app.callback(
-    Output(component_id='graph-output', component_property='figure'),
-    [Input(component_id='my-dropdown', component_property='value')],
+    Output(component_id='graph-output', component_property='figure'),('tabs-content-example-graph', 'children'),
+    [Input(component_id='my-dropdown', component_property='value')],('tabs-example-graph', 'value'),
     # [Input(component_id='my-button', component_property='n_clicks')],
     # [State(component_id='my-dropdown', component_property='value')],
     prevent_initial_call=False
 )
+
+def render_content(tab):
+    if tab == 'tab-1-example-graph':
+        return html.Div([
+            html.H3('Tab content 1'),
+            dcc.Graph(figure={})]
+)
+        
+    elif tab == 'tab-2-example-graph':
+        return html.Div([
+            html.H3('Tab content 2'),
+            dcc.Graph(id='graph-2-tabs-dcc',figure={})]
+)
+
+
 def update_my_graph(val_chosen):
     if len(val_chosen) > 0:
         # print(n)
@@ -53,6 +67,7 @@ def update_my_graph(val_chosen):
         return fig
     elif len(val_chosen) == 0:
         raise dash.exceptions.PreventUpdate
+    
 
 
 
