@@ -1,70 +1,70 @@
-import pandas as pd     #(version 0.24.2)
-
-import dash             #(version 1.0.0)
-import dash_core_components as dcc
-import dash_html_components as html
-from dash.dependencies import Input, Output
-
-import plotly          #(version 4.4.1)
+import pandas as pd
 import plotly.express as px
 
-df = pd.read_csv("suicide_rates.csv")
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+from dash.dependencies import Input, Output, State
 
-mark_values = {1985:'1985',1988:'1988',1991:'1991',1994:'1994',
-               1997:'1997',2000:'2000',2003:'2003',2006:'2006',
-               2009:'2009',2012:'2012',2015:'2015',2016:'2016'}
+# Data source https://finance.yahoo.com  -Data owner: Stefano Leone on Kaggle
+df = pd.read_csv("https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Callbacks/Basic%20Callback/Mutual-Funds.csv")
+
+colors = ["black", "blue", "red", "yellow", "pink", "orange"]
 
 app = dash.Dash(__name__)
 
-#---------------------------------------------------------------
-app.layout = html.Div([
-        html.Div([
-            html.Pre(children= "Suicide Rates 1985-2016",
-            style={"text-align": "center", "font-size":"100%", "color":"black"})
-        ]),
+app.layout = html.Div(
+    children=[
+        dcc.Dropdown(id='my-dropdown', multi=True,
+                     options=[{'label': x, 'value': x} for x in sorted(df.fund_extended_name.unique())],
+                     value=["Fidelity 500 Index Fund", "Fidelity Advisor Freedom 2035 Fund Class A",
+                            "Fidelity Freedom 2035 Fund"]),
+        html.Button(id='my-button', n_clicks=0, children="Show breakdown"),
+        dcc.Graph(id='graph-output', figure={}),
 
-        html.Div([
-            dcc.Graph(id='the_graph')
-        ]),
-
-        html.Div([
-            dcc.RangeSlider(id='the_year',
-                min=1985,
-                max=2016,
-                value=[1985,1988],
-                marks=mark_values,
-                step=None)
-        ],style={"width": "70%", "position":"absolute",
-                 "left":"5%"})
-
-])
-#---------------------------------------------------------------
-@app.callback(
-    Output('the_graph','figure'),
-    [Input('the_year','value')]
+        html.Div(id="sentence-output", children=["This is the color I love"], style={}),
+        dcc.RadioItems(id='my-radioitem', value="black", options=[{'label': c, 'value': c} for c in colors]),
+    ]
 )
 
-def update_graph(years_chosen):
-    # print(years_chosen)
 
-    dff=df[(df['year']>=years_chosen[0])&(df['year']<=years_chosen[1])]
-    # filter df rows where column year values are >=1985 AND <=1988
-    dff=dff.groupby(["country"], as_index=False)[["suicides/100k pop",
-                    "gdp_per_capita ($)"]].mean()
-    # print (dff[:3])
+# Single Input, single Output, State, prevent initial trigger of callback, PreventUpdate
+@app.callback(
+    Output(component_id='graph-output', component_property='figure'),
+    [Input(component_id='my-dropdown', component_property='value')],
+    # [Input(component_id='my-button', component_property='n_clicks')],
+    # [State(component_id='my-dropdown', component_property='value')],
+    prevent_initial_call=False
+)
+def update_my_graph(val_chosen):
+    if len(val_chosen) > 0:
+        # print(n)
+        print(f"value user chose: {val_chosen}")
+        print(type(val_chosen))
+        dff = df[df["fund_extended_name"].isin(val_chosen)]
+        fig = px.pie(dff, values="ytd_return", names="fund_extended_name", title="Year-to-Date Returns")
+        fig.update_traces(textinfo="value+percent").update_layout(title_x=0.5)
+        return fig
+    elif len(val_chosen) == 0:
+        raise dash.exceptions.PreventUpdate
 
-    scatterplot = px.scatter(
-        data_frame=dff,
-        x="suicides/100k pop",
-        y="gdp_per_capita ($)",
-        hover_data=['country'],
-        text="country",
-        height=550
-    )
 
-    scatterplot.update_traces(textposition='top center')
+# Multiple Input, multiple Output, dash.no_update
+# @app.callback(
+#     [Output('graph-output', 'figure'), Output('sentence-output', 'style')],
+#     [Input(component_id='my-radioitem', component_property='value'),
+#      Input(component_id='my-dropdown', component_property='value')],
+#     prevent_initial_call=False
+# )
+# def update_graph(color_chosen, val_chosen):
+#     if len(val_chosen) == 0:
+#         return dash.no_update, {"color": color_chosen}
+#     else:
+#         dff = df[df["fund_extended_name"].isin(val_chosen)]
+#         fig = px.pie(dff, values="ytd_return", names="fund_extended_name", title="Year-to-Date Returns")
+#         fig.update_traces(textinfo="value+percent").update_layout(title_x=0.5)
+#         return fig, {"color": color_chosen}
 
-    return (scatterplot)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
