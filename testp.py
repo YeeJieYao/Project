@@ -8,6 +8,8 @@ from dash.dependencies import Input, Output, State
 
 df = pd.read_csv("https://raw.githubusercontent.com/YeeJieYao/Project/main/population.csv")
 
+colors = ["black", "blue", "red", "yellow", "pink", "orange"]
+
 app = dash.Dash(__name__)
 server = app.server
 
@@ -21,8 +23,14 @@ app.layout = html.Div(
 
         dcc.Dropdown(id='my-dropdown', multi=True,
                      options=[{'label': x, 'value': x} for x in sorted(df.state.unique())],
-                     value=["Johor"])
-])
+                     value=["Johor"]),
+        html.Button(id='my-button', n_clicks=0, children="Show breakdown"),
+        dcc.Graph(id='graph-output', figure={}),
+
+        html.Div(id="sentence-output", children=["This is the color I love"], style={}),
+        dcc.RadioItems(id='my-radioitem', value="black", options=[{'label': c, 'value': c} for c in colors]),
+    ]
+)
 
 
 # Single Input, single Output, State, prevent initial trigger of callback, PreventUpdate
