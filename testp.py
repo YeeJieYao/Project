@@ -9,30 +9,22 @@ image_path = 'https://www.mmu.edu.my/wp-content/themes/mmu2018/assets/images/log
 data_path = 'https://raw.githubusercontent.com/YeeJieYao/Project/main/population.csv'
 
 df = pd.read_csv(data_path)
-df2= df.iloc[1:]
 
-fig = px.pie(df2,values='pop', names='state',title='Malaysia Population') .update_layout(xaxis_title="State", yaxis_title="Index")
-
+colors = ["black", "blue", "red", "yellow", "pink", "orange"]
 
 app.layout = html.Div(
-    [html.Img(src=image_path),
-    html.H1("Data Visualization"),
-    html.H2("Dashboard showing graphs"),
-    dcc.Dropdown(['pop', 'pop_18', 'pop_60'],
-              'pop', id='my-dropdown'),
-    dcc.Graph(id='graph-output', figure = fig)]
+    state=[html.H1("Data Visualization"),
+    dcc.Dropdown(['Johor', 'Kedah', 'Kelantan','Melaka', 'Negeri Sembilan', 'Pahang', 'Pulau Pinang', 'Perak', 'Perlis', 'Selangor', 'Terengganu', 'Sabah', 'Sarawak', 'W.P. Kuala Lumpur', 'W.P. Labuan', 'W.P. Putrajaya'],
+                 'Johor', id='my-dropdown'),
+    html.Button(id='my-button', n_clicks=0, state="Show breakdown"),
+    dcc.Graph(id='graph-output', figure ={}),
+    html.Div(id="sentence-output", children=["This is the color I love"], style={}),
+        dcc.RadioItems(id='my-radioitem', value="black", options=[{'label': c, 'value': c} for c in colors]),
+    ]
 )
 
 
-@app.callback(
-    Output(component_id='graph-output', component_property='figure'),
-    Input(component_id='my-dropdown', component_property='values')
-)
 
-def update_my_graph(dropdown_chosen, color_chosen):
-    fig = px.pie(df2, x='state', y='dropdown_chosen', title=dropdown_chosen) .update_layout(xaxis_title="State", yaxis_title="Index")
-    fig.update_traces(line_color=color_chosen['hex'])
-    return fig
 
 
 if __name__ == '__main__':
