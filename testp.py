@@ -6,8 +6,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 
-# Data source https://finance.yahoo.com  -Data owner: Stefano Leone on Kaggle
-df = pd.read_csv("https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Callbacks/Basic%20Callback/Mutual-Funds.csv")
+df = pd.read_csv("https://raw.githubusercontent.com/YeeJieYao/Project/main/population.csv")
 
 colors = ["black", "blue", "red", "yellow", "pink", "orange"]
 
@@ -17,9 +16,9 @@ server = app.server
 app.layout = html.Div(
     children=[
         dcc.Dropdown(id='my-dropdown', multi=True,
-                     options=[{'label': x, 'value': x} for x in sorted(df.fund_extended_name.unique())],
-                     value=["Fidelity 500 Index Fund", "Fidelity Advisor Freedom 2035 Fund Class A",
-                            "Fidelity Freedom 2035 Fund"]),
+                     options=[{'label': x, 'value': x} for x in sorted(df.state.unique())],
+                     value=["Johor", "Kedah",
+                            "Kelantan"]),
         html.Button(id='my-button', n_clicks=0, children="Show breakdown"),
         dcc.Graph(id='graph-output', figure={}),
 
@@ -42,8 +41,8 @@ def update_my_graph(val_chosen):
         # print(n)
         print(f"value user chose: {val_chosen}")
         print(type(val_chosen))
-        dff = df[df["fund_extended_name"].isin(val_chosen)]
-        fig = px.pie(dff, values="ytd_return", names="fund_extended_name", title="Year-to-Date Returns")
+        dff = df[df["state"].isin(val_chosen)]
+        fig = px.pie(dff, values="pop", names="state", title="Malaysia Population")
         fig.update_traces(textinfo="value+percent").update_layout(title_x=0.5)
         return fig
     elif len(val_chosen) == 0:
