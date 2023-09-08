@@ -29,6 +29,7 @@ app.layout = html.Div(
 
         html.Div(id="sentence-output", children=["This is the color I love"], style={}),
         dcc.RadioItems(id='my-radioitem', value="black", options=[{'label': c, 'value': c} for c in colors]),
+    
     ]
 )
 
