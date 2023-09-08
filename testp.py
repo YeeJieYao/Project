@@ -16,11 +16,11 @@ server = app.server
 image_path = 'https://www.mmu.edu.my/wp-content/themes/mmu2018/assets/images/logo-mmu.png'
 
 app.layout = html.Div(
+    children=[
     html.Img(src=image_path),	                
     html.H1("Data Visualization"),
     html.H2("Dashboard showing graphs"),
-    
-    children=[
+
         dcc.Dropdown(id='my-dropdown', multi=True,
                      options=[{'label': x, 'value': x} for x in sorted(df.state.unique())],
                      value=["Johor", "Kedah",
