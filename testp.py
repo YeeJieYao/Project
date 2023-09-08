@@ -11,7 +11,7 @@ data_path = 'https://raw.githubusercontent.com/YeeJieYao/Project/main/population
 df = pd.read_csv(data_path)
 df2= df.iloc[1:]
 
-fig = px.pie(df2,values='pop', names='state',title='Malaysia Population') .update_layout(xaxis_title="State", yaxis_title="Index")
+fig = px.line(df2,values='pop', names='state',title='Malaysia Population') .update_layout(xaxis_title="State", yaxis_title="Index")
 
 
 app.layout = html.Div(
@@ -29,7 +29,7 @@ app.layout = html.Div(
 )
 
 def update_my_graph(dropdown_chosen, color_chosen):
-    fig = px.pie(df2,values='pop', names='state',title='Malaysia Population') .update_layout(xaxis_title="State", yaxis_title="Index")
+    fig = px.line(df2,values='pop', names='state',title='Malaysia Population') .update_layout(xaxis_title="State", yaxis_title="Index")
     fig.update_traces(line_color=color_chosen['hex'])
     return fig
 
