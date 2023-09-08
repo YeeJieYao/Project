@@ -13,6 +13,7 @@ df2= df.iloc[1:]
 
 fig = px.pie(df2,values='pop', names='state',title='Malaysia Population') .update_layout(xaxis_title="State", yaxis_title="Index")
 
+dcc.Graph(figure = fig)
 
 app.layout = html.Div(
     [html.Img(src=image_path),
