@@ -1,23 +1,26 @@
 from dash import Dash, html, dcc, Output, Input
 import plotly.express as px
+import pandas as pd
 
 app = Dash(__name__)
 server = app.server
 
 image_path = 'https://www.mmu.edu.my/wp-content/themes/mmu2018/assets/images/logo-mmu.png'
+data_path = 'https://raw.githubusercontent.com/YeeJieYao/Project/main/mcd_locations_in_malaysia.csv'
 
-fig = px.line(x=["a","b","c","d","e"], y=[1,3,2,2,3], title="Sample figure")	
+df = pd.read_csv(data_path)
+df2= df.iloc[1:]
 
-df = px.data.iris()
-fig2 = px.scatter(df, x="sepal_width", y="sepal_length", color="species", title="A Plotly Express Figure")
+fig = px.pie(df2,values='pop', names='state',title='Malaysia Population') .update_layout(xaxis_title="State", yaxis_title="Index")
+
 
 app.layout = html.Div(
-    [html.Img(src=image_path),	                
+    [html.Img(src=image_path),
     html.H1("Data Visualization"),
     html.H2("Dashboard showing graphs"),
-    dcc.Graph(figure = fig),
-    dcc.Graph(figure = fig2)]
+    dcc.Checklist(['Johor', 'Kedah', 'Kelantan','Melaka', 'Negeri Sembilan', 'Pahang', 'Pulau Pinang', 'Perak', 'Perlis', 'Selangor', 'Terengganu', 'Sabah', 'Sarawak', 'W.P. Kuala Lumpur', 'W.P. Labuan', 'W.P. Putrajaya'])
+    dcc.Graph(figure = fig)]
 )
- 
+
 if __name__ == '__main__':
     app.run_server(debug=True)
