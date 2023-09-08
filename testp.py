@@ -32,7 +32,7 @@ app.layout = html.Div(
 @app.callback(
     Output(component_id='graph-output', component_property='figure'),
     [Input(component_id='my-dropdown', component_property='value')],
-    [Input(component_id='my-button', component_property='n_clicks')],
+    #[Input(component_id='my-button', component_property='n_clicks')],
     # [State(component_id='my-dropdown', component_property='value')],
     prevent_initial_call=False
 )
