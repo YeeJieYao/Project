@@ -30,7 +30,7 @@ app.layout = html.Div(
 )
 
 def update_my_graph(dropdown_chosen, color_chosen):
-    fig = px.pie(df2,values='pop', names='state',title='Malaysia Population') .update_layout(xaxis_title="State", yaxis_title="Index")
+    fig = px.pie(df2, x='dropdown_chosen', y='pop', title=dropdown_chosen) .update_layout(xaxis_title="State", yaxis_title="Index")
     fig.update_traces(line_color=color_chosen['hex'])
     return fig
 
