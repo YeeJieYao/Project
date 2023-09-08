@@ -9,6 +9,7 @@ image_path = 'https://www.mmu.edu.my/wp-content/themes/mmu2018/assets/images/log
 data_path = 'https://raw.githubusercontent.com/YeeJieYao/Project/main/population.csv'
 
 df = pd.read_csv(data_path)
+px.pie(df,values='pop_60', names='state',title='Malaysia Population') .update_layout(xaxis_title="State", yaxis_title="Index")
 
 colors = ["black", "blue", "red", "yellow", "pink", "orange"]
 
